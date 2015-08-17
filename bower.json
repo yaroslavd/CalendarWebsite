@@ -1,0 +1,26 @@
+{
+  "name": "Calendar Website",
+  "version": "1.0",
+  "homepage": "https://github.com/yaroslavd/CalendarWebsite",
+  "authors": [
+    "Yaroslav Dvinov <yd43@cornell.edu>"
+  ],
+  "description": "Yaro's Calendar Website",
+  "main": "index.html",
+  "moduleType": [
+    "globals"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-directive.g-signin": "~0.1.2",
+    "angular": "~1.4.4",
+    "bootstrap": "~3.3.5"
+  }
+}

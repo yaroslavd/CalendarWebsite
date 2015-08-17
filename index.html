@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+
+<html ng-app="indexApp" ng-controller="indexController">
+<head>
+	<title>Yaro's Calendar App</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+	<h1>Hello!</h1>
+	<div>
+		Yaro's Calendar App allows you to schedule appointments with your trainer.
+		Please sign in with Google+ to get started.
+	</div>
+	
+	<google-plus-signin clientid="187173892432-dnsafu5beq2j4qgggl8kf7serfca9umn.apps.googleusercontent.com"></google-plus-signin>
+	
+	<script src="bower_components/angular/angular.js"></script>
+	<script src="bower_components/angular-directive.g-signin/google-plus-signin.js"></script>
+	<script src="js/indexController.js"></script>
+</body>
+</html>
