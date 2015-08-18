@@ -7,9 +7,7 @@ angular.module('indexApp', [ 'googleApi' ])
         scopes : [ 'email' ]
       });
     })
-  .controller('indexController', function($scope, googleLogin) {
-    console.log('Controller loaded');
-
+  .controller('googleController', ['$scope', 'googleLogin', 'googlePlus', function ($scope, googleLogin, googlePlus) {
     $scope.login = function () {
         googleLogin.login()
           .then(function() {
@@ -21,19 +19,11 @@ angular.module('indexApp', [ 'googleApi' ])
     
     $scope.$on("google:authenticated", function(auth) {
       $scope.loggedIntoGoogle = true;
-      gapi.client.load('plus', 'v1', apiClientLoaded);
     });
     
-    function apiClientLoaded() {
-      gapi.client.plus.people.get({
-        userId : 'me'
-      }).execute(handleResponse);
-    }
-
-    function handleResponse(resp) {
-      console.log(resp);
-      $scope.clientName = resp.displayName;
-      $scope.$apply();
-    }
-  }
-);
+    $scope.$on("googlePlus:loaded", function apiClientLoaded() {
+      googlePlus.getCurrentUser().then(function(user) {
+        $scope.clientName = user.name.givenName;
+      });
+    });
+  }]);
