@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 <html ng-app="indexApp">
+
 <head>
 	<title>Yaro's Calendar App</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,30 +9,25 @@
 	
 	<script src="bower_components/angular/angular.js"></script>
 	<script src="bower_components/angular-googleapi/src/angular-googleapi.js"></script>
+	<script>
+	  function googleClientLoaded() {
+	    gapi.auth.init(function() {
+	    });
+	  }
+  	</script>
+  	<script src="js/indexApp.js"></script>
+	<script src="https://apis.google.com/js/client.js?onload=googleClientLoaded"></script>
 </head>
+
 <body>
-	<div ng-controller="googleController">
-		<h1 ng-show="clientName == null">Welcome!</h1>
-		<h1 ng-show="clientName != null">Welcome {{clientName}}!</h1>
-		<div>
-			Yaro's Calendar App allows you to schedule appointments with your trainer.
-		</div>
+	<div ng-controller="googleController as google">
+		<h1 ng-show="google.clientName == null">Welcome!</h1>
+		<h1 ng-show="google.clientName != null">Welcome {{google.clientName}}!</h1>
 		
-		<div ng-show="!loggedIntoGoogle"><button ng-click="login()">Login To Google</button></div>
-		</div>
+		Yaro's Calendar App allows you to schedule appointments with your trainer.
 		
-		<script src="js/indexApp.js"></script>
-		<script>
-		  function googleClientLoaded() {
-		    gapi.auth.init(function() {
-		    });
-		  }
-	  	</script>
-		<script src="https://apis.google.com/js/client.js?onload=googleClientLoaded"></script>
-	</div>
-	
-	<div ng-controller="cognitoController">
-	
+		<div ng-show="!google.loggedIntoGoogle"><button ng-click="google.login()">Login To Google</button></div>
 	</div>
 </body>
+
 </html>
