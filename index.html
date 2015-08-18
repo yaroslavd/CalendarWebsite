@@ -5,18 +5,27 @@
 	<title>Yaro's Calendar App</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-	<h1>Hello!</h1>
-	<div>
-		Yaro's Calendar App allows you to schedule appointments with your trainer.
-		Please sign in with Google+ to get started.
-	</div>
-	
-	<google-plus-signin clientid="187173892432-dnsafu5beq2j4qgggl8kf7serfca9umn.apps.googleusercontent.com"></google-plus-signin>
 	
 	<script src="bower_components/angular/angular.js"></script>
-	<script src="bower_components/angular-directive.g-signin/google-plus-signin.js"></script>
+	<script src="bower_components/angular-googleapi/src/angular-googleapi.js"></script>
+</head>
+<body>
+	<h1 ng-show="clientName == null">Welcome!</h1>
+	<h1 ng-show="clientName != null">Welcome {{clientName}}!</h1>
+	<div>
+		Yaro's Calendar App allows you to schedule appointments with your trainer.
+	</div>
+	
+	<div ng-show="!loggedIntoGoogle"><button ng-click="login()">Login To Google</button></div>
+	</div>
+	
 	<script src="js/indexController.js"></script>
+	<script>
+	  function googleClientLoaded() {
+	    gapi.auth.init(function() {
+	    });
+	  }
+  	</script>
+	<script src="https://apis.google.com/js/client.js?onload=googleClientLoaded"></script>
 </body>
 </html>
