@@ -1,12 +1,6 @@
 'use strict';
 
-angular.module('indexApp', [ 'googleApi' ])
-  .config(function(googleLoginProvider) {
-    googleLoginProvider.configure({
-      clientId : '187173892432-dnsafu5beq2j4qgggl8kf7serfca9umn.apps.googleusercontent.com',
-      scopes : [ 'email' ]
-    });
-  })
+angular.module('indexApp')
   .controller('googleController', ['$scope', 'googleLogin', 'googlePlus', function ($scope, googleLogin, googlePlus) {
     var vm = this;
     
