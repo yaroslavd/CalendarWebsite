@@ -1,3 +1,3 @@
 'use strict';
 
-angular.module('indexApp', [ 'googleApi' ]);
+angular.module('indexApp', []);

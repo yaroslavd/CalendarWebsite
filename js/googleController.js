@@ -1,26 +1,14 @@
 'use strict';
 
 angular.module('indexApp')
-  .controller('googleController', ['$scope', 'googleLogin', 'googlePlus', function ($scope, googleLogin, googlePlus) {
+  .controller('googleController', ['googleService', function (googleService) {
+    console.log('googleController loaded');
+    
     var vm = this;
+    vm.clientName = null;
     
-    console.log('controllerLoaded');
-    vm.login = function () {
-        googleLogin.login()
-          .then(function() {
-            console.log("login success");
-          }, function() {
-            console.error("failed login");
-          });
-    };
-    
-    $scope.$on("google:authenticated", function(auth) {
-      vm.loggedIntoGoogle = true;
-    });
-    
-    $scope.$on("googlePlus:loaded", function apiClientLoaded() {
-      googlePlus.getCurrentUser().then(function(user) {
-        vm.clientName = user.name.givenName;
-      });
+    googleService.then(function(googleResult) {
+      console.log(googleResult);
+      vm.clientName = googleResult.name;
     });
   }]);

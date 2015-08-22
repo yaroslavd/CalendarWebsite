@@ -21,6 +21,6 @@
   "dependencies": {
     "angular": "~1.4.4",
     "bootstrap": "~3.3.5",
-    "angular-googleapi": "~0.0.2"
+    "aws-sdk-js": "~2.1.45"
   }
 }
