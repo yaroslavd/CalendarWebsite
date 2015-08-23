@@ -1,12 +1,31 @@
 'use strict';
 
 angular.module('indexApp')
-  .controller('listTrainersController', ['$scope', 'cognitoService', function ($scope, cognitoService) {
+  .controller('listTrainersController', ['$scope', 'apigClientService', 'location',
+                                         function ($scope, apigClientService, location) {
     var vm = this;
     
-    cognitoService.then(setCredentials);
+    apigClientService.then(listTrainers);
     
-    function setCredentials(cognitoResults) {
-      vm.credentials = cognitoResults;
+    function listTrainers(apigClient) {
+      console.log("apig Client");
+      console.log(apigClient);
+      var params = {
+          location: location
+        };
+      
+      var body = {
+        };
+      
+      var additionalParams = {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        };
+      
+      apigClient.trainersGet(params, body, additionalParams)
+        .then(function(result){
+          vm.trainers = result.data.trainers;
+        });
     }
   }]);

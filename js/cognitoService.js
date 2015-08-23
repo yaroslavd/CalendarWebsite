@@ -44,9 +44,7 @@ angular.module('indexApp')
         console.log("COGNITO RESPONSE - creds");
         console.log(credData);
         
-        cognitoResults.resolve({
-          credentials: credData.Credentials
-        });
+        cognitoResults.resolve(credData.Credentials);
       };
     });
     

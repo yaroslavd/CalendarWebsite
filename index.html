@@ -14,11 +14,25 @@
   	<script src="js/googleService.js"></script>
   	<script src="js/googleController.js"></script>
   	<script src="js/cognitoService.js"></script>
+  	<script src="js/apigClientService.js"></script>
   	<script src="js/listTrainersController.js"></script>
 	
 	<meta name="google-signin-scope" content="profile email">
     <meta name="google-signin-client_id" content="187173892432-dnsafu5beq2j4qgggl8kf7serfca9umn.apps.googleusercontent.com">
     <script src="https://apis.google.com/js/platform.js" async defer></script>
+    
+    <script type="text/javascript" src="list-trainers-sdk/lib/axios/dist/axios.standalone.js"></script>
+	<script type="text/javascript" src="list-trainers-sdk/lib/CryptoJS/rollups/hmac-sha256.js"></script>
+	<script type="text/javascript" src="list-trainers-sdk/lib/CryptoJS/rollups/sha256.js"></script>
+	<script type="text/javascript" src="list-trainers-sdk/lib/CryptoJS/components/hmac.js"></script>
+	<script type="text/javascript" src="list-trainers-sdk/lib/CryptoJS/components/enc-base64.js"></script>
+	<script type="text/javascript" src="list-trainers-sdk/lib/url-template/url-template.js"></script>
+	<script type="text/javascript" src="list-trainers-sdk/lib/apiGatewayCore/sigV4Client.js"></script>
+	<script type="text/javascript" src="list-trainers-sdk/lib/apiGatewayCore/apiGatewayClient.js"></script>
+	<script type="text/javascript" src="list-trainers-sdk/lib/apiGatewayCore/simpleHttpClient.js"></script>
+	<script type="text/javascript" src="list-trainers-sdk/lib/apiGatewayCore/utils.js"></script>
+	<script type="text/javascript" src="list-trainers-sdk/lib/moment/moment.js"></script>
+	<script type="text/javascript" src="list-trainers-sdk/apigClient.js"></script>
 </head>
 
 <body>
@@ -31,9 +45,20 @@
 		<div ng-show="google.clientName == null" class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
 	</div>
 	
+	<hr>
+	
 	<div ng-controller="listTrainersController as listTrainers">
-		Credentials: {{listTrainers.credentials}}
+		<label for="trainerSelect">Select your preferred trainer: </label>
+		<select name="trainerSelect" ng-model="selectedTrainer">
+		  <option ng-repeat="trainer in listTrainers.trainers" value="{{trainer.id}}">{{trainer.name}}</option>
+		</select>
+		
+		<br>
+		
+		Congrats, you picked trainer with id {{selectedTrainer}}!
 	</div>
+	
+	
 	
 </body>
 
