@@ -4,6 +4,7 @@ angular.module('indexApp')
   .controller('listTrainersController', ['$scope', 'apigClientService', 'location',
                                          function ($scope, apigClientService, location) {
     var vm = this;
+    vm.trainers = null;
     
     apigClientService.then(listTrainers);
     
@@ -24,8 +25,10 @@ angular.module('indexApp')
         };
       
       apigClient.trainersGet(params, body, additionalParams)
-        .then(function(result){
-          vm.trainers = result.data.trainers;
-        });
+        .then(processTrainersGetResult);
+    }
+    
+    function processTrainersGetResult(result) {
+      $scope.$apply(vm.trainers = result.data.trainers);
     }
   }]);

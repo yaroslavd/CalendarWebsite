@@ -37,25 +37,27 @@
 
 <body>
 	<div ng-controller="googleController as google">
-		<h1 ng-show="google.clientName == null">Welcome!</h1>
-		<h1 ng-show="google.clientName != null">Welcome {{google.clientName}}!</h1>
+		<h1 ng-show="google.clientName === null">Welcome!</h1>
+		<h1 ng-show="google.clientName !== null">Welcome {{google.clientName}}!</h1>
 		
 		Yaro's Calendar App allows you to schedule appointments with your trainer.
 		
-		<div ng-show="google.clientName == null" class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+		<div ng-show="google.clientName === null" class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
 	</div>
 	
 	<hr>
 	
 	<div ng-controller="listTrainersController as listTrainers">
-		<label for="trainerSelect">Select your preferred trainer: </label>
-		<select name="trainerSelect" ng-model="selectedTrainer">
-		  <option ng-repeat="trainer in listTrainers.trainers" value="{{trainer.id}}">{{trainer.name}}</option>
-		</select>
-		
-		<br>
-		
-		Congrats, you picked trainer with id {{selectedTrainer}}!
+		<div ng-show="listTrainers.trainers !== null">
+			<label for="trainerSelect">Select your preferred trainer: </label>
+			<select name="trainerSelect" ng-model="selectedTrainer">
+			  <option ng-repeat="trainer in listTrainers.trainers" value="{{trainer.id}}">{{trainer.name}}</option>
+			</select>
+			
+			<br>
+			
+			Congrats, you picked trainer with id {{selectedTrainer}}!
+		</div>
 	</div>
 	
 	
