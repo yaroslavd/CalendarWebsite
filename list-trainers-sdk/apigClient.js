@@ -59,16 +59,11 @@ apigClientFactory.newClient = function (config) {
         region: config.region,
         endpoint: endpoint
     };
-    
-    console.log('sigv4 client config');
-    console.log(sigV4ClientConfig);
 
     var authType = 'NONE';
     if (sigV4ClientConfig.accessKey !== undefined && sigV4ClientConfig.accessKey !== '' && sigV4ClientConfig.secretKey !== undefined && sigV4ClientConfig.secretKey !== '') {
         authType = 'AWS_IAM';
     }
-    
-    console.log('apiClient auth type: ' + authType);
 
     var simpleHttpClientConfig = {
         endpoint: endpoint
@@ -111,6 +106,42 @@ apigClientFactory.newClient = function (config) {
         
         
         return apiGatewayClient.makeRequest(trainersOptionsRequest, authType, additionalParams, config.apiKey);
+    };
+    
+    
+    apigClient.trainersTrainerIdFreeslotsGet = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, ['queryIntervalEnd', 'queryIntervalStart', 'location', 'trainerId', 'body'], ['body']);
+        
+        var trainersTrainerIdFreeslotsGetRequest = {
+            verb: 'get'.toUpperCase(),
+            path: tag + uritemplate('/trainers/{trainerId}/freeslots').expand(apiGateway.core.utils.parseParametersToObject(params, ['trainerId', ])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, ['queryIntervalEnd', 'queryIntervalStart', 'location', ]),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(trainersTrainerIdFreeslotsGetRequest, authType, additionalParams, config.apiKey);
+    };
+    
+    
+    apigClient.trainersTrainerIdFreeslotsOptions = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, ['trainerId'], ['body']);
+        
+        var trainersTrainerIdFreeslotsOptionsRequest = {
+            verb: 'options'.toUpperCase(),
+            path: tag + uritemplate('/trainers/{trainerId}/freeslots').expand(apiGateway.core.utils.parseParametersToObject(params, ['trainerId'])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(trainersTrainerIdFreeslotsOptionsRequest, authType, additionalParams, config.apiKey);
     };
     
 
