@@ -15,7 +15,7 @@
   	<script src="js/googleController.js"></script>
   	<script src="js/cognitoService.js"></script>
   	<script src="js/apigClientService.js"></script>
-  	<script src="js/listTrainersController.js"></script>
+  	<script src="js/calendarServiceController.js"></script>
 	
 	<meta name="google-signin-scope" content="profile email">
     <meta name="google-signin-client_id" content="187173892432-dnsafu5beq2j4qgggl8kf7serfca9umn.apps.googleusercontent.com">
@@ -47,11 +47,11 @@
 	
 	<hr>
 	
-	<div ng-controller="listTrainersController as listTrainers">
-		<div ng-show="listTrainers.trainers !== null">
+	<div ng-controller="calendarServiceController as calendarService">
+		<div ng-show="calendarService.trainers !== null">
 			<label for="trainerSelect">Select your preferred trainer: </label>
-			<select name="trainerSelect" ng-model="selectedTrainer">
-			  <option ng-repeat="trainer in listTrainers.trainers" value="{{trainer.id}}">{{trainer.name}}</option>
+			<select name="trainerSelect" ng-model="selectedTrainer" ng-change="calendarService.trainerSelected()">
+			  <option ng-repeat="trainer in calendarService.trainers" value="{{trainer.id}}">{{trainer.name}}</option>
 			</select>
 			
 			<br>
