@@ -62,7 +62,7 @@
 					<div ng-repeat="freeSlot in freeSlots">
 						<label>
 							<input type="radio" ng-model="calendarService.selectedSlot" value={{freeSlot}} name="freeSlotSelector">
-							{{freeSlot}}
+							{{calendarService.timeSlotRender(freeSlot)}}
 						</label><br/>
 					</div>
 				</div>

@@ -44,7 +44,7 @@ angular.module('indexApp')
           location: location,
           trainerId: $scope.selectedTrainer,
           queryIntervalStart: "2015-09-01T16:00:00Z",
-          queryIntervalEnd: "2015-09-02T18:00:00Z"
+          queryIntervalEnd: "2015-10-02T18:00:00Z"
         };
       
       var body = {
@@ -79,7 +79,23 @@ angular.module('indexApp')
     }
     
     vm.freeSlotKey = function(freeSlot) {
-      return "" + freeSlot.year + freeSlot.month + freeSlot.day;
+      var date = moment(freeSlot.year + "-" + freeSlot.month + "-" + freeSlot.day, "YYYY-MM-DD");
+      return vm.renderDate(date);
+    }
+    
+    vm.timeSlotRender = function(slot) {
+      var slotStart = moment(slot.startHour + ":" + slot.startMinute, "HH:mm");
+      var slotEnd = moment(slot.endHour + ":" + slot.endMinute, "HH:mm");
+      
+      return vm.renderTime(slotStart) + " - " + vm.renderTime(slotEnd);
+    }
+    
+    vm.renderDate = function(moment) {
+      return moment.format("dddd, MMMM Do, YYYY")
+    }
+    
+    vm.renderTime = function(moment) {
+      return moment.format("h:mma");
     }
     
     vm.bookSlot = function() {
