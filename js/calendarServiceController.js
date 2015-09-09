@@ -1,8 +1,9 @@
 'use strict';
 
 angular.module('indexApp')
-  .controller('calendarServiceController', ['$scope', 'apigClientService', 'location',
-                                         function ($scope, apigClientService, location) {
+  .controller('calendarServiceController', ['$scope', 'apigClientService', 'location', 'intervalStartTime', 'intervalEndTime',
+                                         function ($scope, apigClientService, location, intervalStartTime, intervalEndTime) {
+    
     var vm = this;
     vm.trainers = null;
     $scope.selectedTrainer = null;
@@ -43,8 +44,8 @@ angular.module('indexApp')
       var params = {
           location: location,
           trainerId: $scope.selectedTrainer,
-          queryIntervalStart: "2015-09-01T16:00:00Z",
-          queryIntervalEnd: "2015-10-02T18:00:00Z"
+          queryIntervalStart: intervalStartTime.format(),
+          queryIntervalEnd: intervalEndTime.format()
         };
       
       var body = {

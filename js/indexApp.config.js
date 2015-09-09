@@ -16,4 +16,12 @@ angular.module('indexApp')
   .constant('apigApiKey', 'tLCRTZXBTZ3INmncaLDVX4DeLr2w6tgv9f12AAvG')
   
   // Trainer APIs config
-  .constant('location', 'Seattle');
+  .constant('location', 'Seattle')
+  
+  // time intervals for free slots
+  .factory('intervalStartTime', [function() {
+    return moment().add(1, "days").startOf("day");
+  }])
+  .factory('intervalEndTime', ['intervalStartTime', function(intervalStartTime) {
+    return intervalStartTime.clone().add(1, "months").startOf("day");
+  }])
