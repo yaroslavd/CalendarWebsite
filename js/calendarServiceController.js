@@ -6,6 +6,8 @@ angular.module('indexApp')
     var vm = this;
     vm.trainers = null;
     $scope.selectedTrainer = null;
+    vm.freeSlots = null;
+    vm.selectedSlot = null;
     
     apigClientService.then(listTrainers);
     
@@ -42,7 +44,7 @@ angular.module('indexApp')
           location: location,
           trainerId: $scope.selectedTrainer,
           queryIntervalStart: "2015-09-01T16:00:00Z",
-          queryIntervalEnd: "2015-10-01T18:00:00Z"
+          queryIntervalEnd: "2015-09-02T18:00:00Z"
         };
       
       var body = {
@@ -61,6 +63,28 @@ angular.module('indexApp')
     vm.processTrainersTrainerIdFreeslotsGet = function(result) {
       console.log('free slots processed');
       console.log(result);
+      
+      vm.freeSlots = {};
+      result.data.freeSlots.forEach(vm.processFreeSlot);
+      ;
+      $scope.$apply(console.log(vm.freeSlots));
+    }
+    
+    vm.processFreeSlot = function(freeSlot) {
+      var key = vm.freeSlotKey(freeSlot);
+      if (vm.freeSlots[key] === undefined) {
+        vm.freeSlots[key] = [];
+      }
+      vm.freeSlots[key].push(freeSlot);
+    }
+    
+    vm.freeSlotKey = function(freeSlot) {
+      return "" + freeSlot.year + freeSlot.month + freeSlot.day;
+    }
+    
+    vm.bookSlot = function() {
+      console.log('slot selected');
+      console.log(vm.selectedSlot);
     }
     
     return vm;

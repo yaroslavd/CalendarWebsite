@@ -54,14 +54,22 @@
 			  <option ng-repeat="trainer in calendarService.trainers" value="{{trainer.id}}">{{trainer.name}}</option>
 			</select>
 			
-			<br>
+			<form ng-show="calendarService.freeSlots !== null">
+				<hr>
 			
-			Congrats, you picked trainer with id {{selectedTrainer}}!
+				<div ng-repeat="(group, freeSlots) in calendarService.freeSlots">
+					{{group}}<br>
+					<div ng-repeat="freeSlot in freeSlots">
+						<label>
+							<input type="radio" ng-model="calendarService.selectedSlot" value={{freeSlot}} name="freeSlotSelector">
+							{{freeSlot}}
+						</label><br/>
+					</div>
+				</div>
+				<input type="submit" ng-click="calendarService.bookSlot()" />
+			</form>
 		</div>
 	</div>
-	
-	
-	
 </body>
 
 </html>
