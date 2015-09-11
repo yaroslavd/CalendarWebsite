@@ -32,6 +32,7 @@ angular.module('indexApp')
     
     vm.trainerSelected = function() {
       console.log("Trainer selected: " + $scope.selectedTrainer);
+      vm.freeSlots = null;
       apigClientService.then(vm.listFreeSlots);
     }
     
@@ -57,7 +58,6 @@ angular.module('indexApp')
       
       vm.freeSlots = {};
       result.data.freeSlots.forEach(vm.processFreeSlot);
-      ;
       $scope.$apply(console.log(vm.freeSlots));
     }
     

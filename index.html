@@ -41,16 +41,25 @@
 		<h1>Welcome!</h1>
 		<p>Yaro's Calendar App allows you to schedule appointments with your trainer.</p>
 	</div>
-	
+
 	<div ng-show="google.clientName === null" class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
 	<hr>
 	
 	<div ng-controller="calendarServiceController as calendarService">
+		<div ng-show="calendarService.trainers === null" class="progress">
+	    	<div class="progress-bar progress-bar-striped active" style="width: 100%" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+	    	</div>
+		</div>
 		<div ng-show="calendarService.trainers !== null">
 			<label for="trainerSelect">Hi {{google.clientName}}, please select your preferred trainer: </label>
 			<select name="trainerSelect" ng-model="selectedTrainer" ng-change="calendarService.trainerSelected()" class="form-control input-lg">
 			  <option ng-repeat="trainer in calendarService.trainers" value="{{trainer.id}}">{{trainer.name}}</option>
 			</select>
+			
+			<div ng-show="selectedTrainer !== null && calendarService.freeSlots === null" class="progress">
+		    	<div class="progress-bar progress-bar-striped active" style="width: 100%" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+		    	</div>
+			</div>
 			
 			<form ng-show="calendarService.freeSlots !== null">
 				<hr>
