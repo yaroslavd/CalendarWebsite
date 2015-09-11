@@ -11,9 +11,9 @@ angular.module('indexApp')
     function returnNewClient(cognitoResults) {
       var newClient = apigClientFactory.newClient({
         apiKey: apigApiKey,
-        accessKey: cognitoResults.AccessKeyId,
-        secretKey: cognitoResults.SecretKey,
-        sessionToken: cognitoResults.SessionToken,
+        accessKey: cognitoResults.Credentials.AccessKeyId,
+        secretKey: cognitoResults.Credentials.SecretKey,
+        sessionToken: cognitoResults.Credentials.SessionToken,
         region: awsRegion
       });
       

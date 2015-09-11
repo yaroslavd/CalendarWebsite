@@ -1,27 +1,26 @@
 'use strict';
 
 angular.module('indexApp')
-  .controller('calendarServiceController', ['$scope', 'apigClientService', 'location', 'intervalStartTime', 'intervalEndTime',
-                                         function ($scope, apigClientService, location, intervalStartTime, intervalEndTime) {
+  .controller('calendarServiceController', ['$scope', '$q', 'cognitoService', 'apigClientService', 'location', 'intervalStartTime', 'intervalEndTime',
+                                         function ($scope, $q, cognitoService, apigClientService, location, intervalStartTime, intervalEndTime) {
     
     var vm = this;
+    
     vm.trainers = null;
-    $scope.selectedTrainer = null;
     vm.freeSlots = null;
     vm.selectedSlot = null;
+    
+    $scope.selectedTrainer = null;
     
     apigClientService.then(listTrainers);
     
     function listTrainers(apigClient) {
       var params = {
           location: location
-        };
+      };
       
-      var body = {
-        };
-      
-      var additionalParams = {
-        };
+      var body = null;
+      var additionalParams = {};
       
       apigClient.trainersGet(params, body, additionalParams)
         .then(vm.processTrainersGetResult);
@@ -33,23 +32,20 @@ angular.module('indexApp')
     
     vm.trainerSelected = function() {
       console.log("Trainer selected: " + $scope.selectedTrainer);
-      apigClientService.then(listFreeSlots);
+      apigClientService.then(vm.listFreeSlots);
     }
     
-    function listFreeSlots(apigClient) {
+    vm.listFreeSlots = function(apigClient) {
       console.log("Listing free slots for trainer: " + $scope.selectedTrainer);
       var params = {
           location: location,
           trainerId: $scope.selectedTrainer,
           queryIntervalStart: intervalStartTime.format(),
           queryIntervalEnd: intervalEndTime.format()
-        };
-      
-      var body = {
       };
       
-      var additionalParams = {
-        };
+      var body = null;
+      var additionalParams = {};
       
       apigClient.trainersTrainerIdFreeslotsGet(params, body, additionalParams)
         .then(vm.processTrainersTrainerIdFreeslotsGet);
@@ -86,7 +82,7 @@ angular.module('indexApp')
     }
     
     vm.renderDate = function(moment) {
-      return moment.format("dddd, MMMM Do, YYYY")
+      return moment.format("dddd, MMMM Do, YYYY");
     }
     
     vm.renderTime = function(moment) {
@@ -96,6 +92,37 @@ angular.module('indexApp')
     vm.bookSlot = function() {
       console.log('slot selected');
       console.log(vm.selectedSlot);
+      $q.all([cognitoService, apigClientService]).then(vm.processBookSlot);
+    }
+    
+    vm.processBookSlot = function(values) {
+      var cognitoResults = values[0];
+      var apigClient = values[1];
+      
+      var toBook = JSON.parse(vm.selectedSlot);
+      
+      console.log('to book');
+      console.log(toBook);
+      
+      var params = {
+          location: location,
+          trainerId: $scope.selectedTrainer,
+          clientId: cognitoResults.IdentityId,
+          year: toBook.year,
+          month: toBook.month,
+          day: toBook.day,
+          slot: toBook.slotIndex
+        };
+      
+      var body = null;
+      var additionalParams = {};
+
+      apigClient.trainersTrainerIdBookedslotsYearMonthDaySlotPost(params, body, additionalParams)
+        .then(vm.processBookSlotResults);
+    }
+    
+    vm.processBookSlotResults = function() {
+      console.log('slot booked');
     }
     
     return vm;
