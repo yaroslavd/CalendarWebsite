@@ -36,7 +36,7 @@
 	<script type="text/javascript" src="calendar-service-sdk/apigClient.js"></script>
 </head>
 
-<body ng-controller="googleController as google" class="container theme-showcase padded-top-and-bottom">
+<body ng-controller="googleController as google" class="container theme-showcase padded-top-and-bottom restrict-width">
 	<div class="jumbotron">
 		<h1>Welcome!</h1>
 		<p>Yaro's Calendar App allows you to schedule appointments with your trainer.</p>
@@ -48,7 +48,7 @@
 	<div ng-controller="calendarServiceController as calendarService">
 		<div ng-show="calendarService.trainers !== null">
 			<label for="trainerSelect">Hi {{google.clientName}}, please select your preferred trainer: </label>
-			<select name="trainerSelect" ng-model="selectedTrainer" ng-change="calendarService.trainerSelected()">
+			<select name="trainerSelect" ng-model="selectedTrainer" ng-change="calendarService.trainerSelected()" class="form-control input-lg">
 			  <option ng-repeat="trainer in calendarService.trainers" value="{{trainer.id}}">{{trainer.name}}</option>
 			</select>
 			

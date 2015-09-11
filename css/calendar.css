@@ -3,6 +3,10 @@
 	padding-bottom: 50px;
 }
 
+.restrict-width {
+	max-width: 800px;
+}
+
 .expand-to-screen-width {
 	width: 100%;
 }
