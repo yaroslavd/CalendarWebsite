@@ -9,6 +9,8 @@ angular.module('indexApp')
     vm.trainers = null;
     vm.freeSlots = null;
     vm.selectedSlot = null;
+    vm.bookingSlot = false;
+    vm.bookingResult = null;
     
     $scope.selectedTrainer = null;
     
@@ -92,6 +94,7 @@ angular.module('indexApp')
     vm.bookSlot = function() {
       console.log('slot selected');
       console.log(vm.selectedSlot);
+      vm.bookingSlot = true;
       $q.all([cognitoService, apigClientService]).then(vm.processBookSlot);
     }
     
@@ -123,6 +126,8 @@ angular.module('indexApp')
     
     vm.processBookSlotResults = function() {
       console.log('slot booked');
+      $scope.$apply(vm.bookingSlot = false);
+      $scope.$apply(vm.bookingResult = true);
     }
     
     return vm;

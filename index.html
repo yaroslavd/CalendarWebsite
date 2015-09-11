@@ -52,7 +52,8 @@
 		</div>
 		<div ng-show="calendarService.trainers !== null">
 			<label for="trainerSelect">Hi {{google.clientName}}, please select your preferred trainer: </label>
-			<select name="trainerSelect" ng-model="selectedTrainer" ng-change="calendarService.trainerSelected()" class="form-control input-lg">
+			<select name="trainerSelect" ng-model="selectedTrainer" ng-change="calendarService.trainerSelected()"
+					class="form-control input-lg expand-to-screen-width provide-margin-on-bottom">
 			  <option ng-repeat="trainer in calendarService.trainers" value="{{trainer.id}}">{{trainer.name}}</option>
 			</select>
 			
@@ -75,7 +76,16 @@
 				</div>
 				<input type="submit" value="Book Selected Slot"
 						ng-disabled="!calendarService.selectedSlot" ng-click="calendarService.bookSlot()"
-						class="btn btn-lg btn-primary expand-to-screen-width" />
+						class="btn btn-lg btn-primary expand-to-screen-width provide-margin-on-bottom" />
+				
+				<div ng-show="calendarService.bookingSlot" class="progress">
+			    	<div class="progress-bar progress-bar-striped active" style="width: 100%" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+			    	</div>
+				</div>
+				
+				<div ng-show="calendarService.bookingResult" class="alert alert-success" role="alert">
+					Congrats, your appointment is booked!
+				</div>
 			</form>
 		</div>
 	</div>
