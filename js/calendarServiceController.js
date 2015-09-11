@@ -10,7 +10,8 @@ angular.module('indexApp')
     vm.freeSlots = null;
     vm.selectedSlot = null;
     vm.bookingSlot = false;
-    vm.bookingResult = null;
+    vm.bookingSuccess = false;
+    vm.bookingAttemptFinished = false;
     
     $scope.selectedTrainer = null;
     
@@ -35,6 +36,7 @@ angular.module('indexApp')
     vm.trainerSelected = function() {
       console.log("Trainer selected: " + $scope.selectedTrainer);
       vm.freeSlots = null;
+      vm.bookingAttemptFinished = false;
       apigClientService.then(vm.listFreeSlots);
     }
     
@@ -121,13 +123,21 @@ angular.module('indexApp')
       var additionalParams = {};
 
       apigClient.trainersTrainerIdBookedslotsYearMonthDaySlotPost(params, body, additionalParams)
-        .then(vm.processBookSlotResults);
+        .then(vm.bookedSuccessfully, vm.bookingFailed);
     }
     
-    vm.processBookSlotResults = function() {
+    vm.bookedSuccessfully = function() {
       console.log('slot booked');
       $scope.$apply(vm.bookingSlot = false);
-      $scope.$apply(vm.bookingResult = true);
+      $scope.$apply(vm.bookingSuccess = true);
+      $scope.$apply(vm.bookingAttemptFinished = true);
+    }
+    
+    vm.bookingFailed = function() {
+      console.log('booking failed');
+      $scope.$apply(vm.bookingSlot = false);
+      $scope.$apply(vm.bookingSuccess = false);
+      $scope.$apply(vm.bookingAttemptFinished = true);
     }
     
     return vm;

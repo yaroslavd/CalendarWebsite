@@ -83,8 +83,14 @@
 			    	</div>
 				</div>
 				
-				<div ng-show="calendarService.bookingResult" class="alert alert-success" role="alert">
+				<div ng-show="calendarService.bookingSuccess && calendarService.bookingAttemptFinished"
+					 class="alert alert-success" role="alert">
 					Congrats, your appointment is booked!
+				</div>
+				
+				<div ng-show="!calendarService.bookingSuccess && calendarService.bookingAttemptFinished"
+					 class="alert alert-danger" role="alert">
+					 Looks like someone beat you to it! Please book a different slot.
 				</div>
 			</form>
 		</div>
