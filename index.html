@@ -35,38 +35,34 @@
 	<script type="text/javascript" src="calendar-service-sdk/apigClient.js"></script>
 </head>
 
-<body>
-	<div ng-controller="googleController as google">
-		<h1 ng-show="google.clientName === null">Welcome!</h1>
-		<h1 ng-show="google.clientName !== null">Welcome {{google.clientName}}!</h1>
-		
-		Yaro's Calendar App allows you to schedule appointments with your trainer.
-		
-		<div ng-show="google.clientName === null" class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+<body ng-controller="googleController as google" class="container theme-showcase" style="padding-top: 50px; padding-bottom: 50px;">
+	<div class="jumbotron">
+		<h1>Welcome!</h1>
+		<p>Yaro's Calendar App allows you to schedule appointments with your trainer.</p>
 	</div>
 	
+	<div ng-show="google.clientName === null" class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
 	<hr>
 	
 	<div ng-controller="calendarServiceController as calendarService">
 		<div ng-show="calendarService.trainers !== null">
-			<label for="trainerSelect">Select your preferred trainer: </label>
+			<label for="trainerSelect">Hi {{google.clientName}}, please select your preferred trainer: </label>
 			<select name="trainerSelect" ng-model="selectedTrainer" ng-change="calendarService.trainerSelected()">
 			  <option ng-repeat="trainer in calendarService.trainers" value="{{trainer.id}}">{{trainer.name}}</option>
 			</select>
 			
 			<form ng-show="calendarService.freeSlots !== null">
 				<hr>
-			
-				<div ng-repeat="(group, freeSlots) in calendarService.freeSlots">
-					{{group}}<br>
-					<div ng-repeat="freeSlot in freeSlots">
+				<div ng-repeat="(group, freeSlots) in calendarService.freeSlots" class="panel panel-default">
+					<div class="panel-heading">{{group}}</div>
+					<div ng-repeat="freeSlot in freeSlots" class="panel-body">
 						<label>
 							<input type="radio" ng-model="calendarService.selectedSlot" value={{freeSlot}} name="freeSlotSelector">
 							{{calendarService.timeSlotRender(freeSlot)}}
 						</label><br/>
 					</div>
 				</div>
-				<input type="submit" ng-click="calendarService.bookSlot()" />
+				<input type="submit" ng-click="calendarService.bookSlot()" class="btn btn-lg btn-default" />
 			</form>
 		</div>
 	</div>
