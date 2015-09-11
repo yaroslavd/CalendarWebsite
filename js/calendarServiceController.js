@@ -21,9 +21,6 @@ angular.module('indexApp')
         };
       
       var additionalParams = {
-          headers: {
-            'Content-Type': 'application/json'
-          }
         };
       
       apigClient.trainersGet(params, body, additionalParams)
@@ -52,9 +49,6 @@ angular.module('indexApp')
       };
       
       var additionalParams = {
-          headers: {
-            'Content-Type': 'application/json'
-          }
         };
       
       apigClient.trainersTrainerIdFreeslotsGet(params, body, additionalParams)

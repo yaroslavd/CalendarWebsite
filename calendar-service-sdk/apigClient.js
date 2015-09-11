@@ -22,7 +22,9 @@ apigClientFactory.newClient = function (config) {
             secretKey: '',
             sessionToken: '',
             region: '',
-            apiKey: undefined
+            apiKey: undefined,
+            defaultContentType: 'application/json',
+            defaultAcceptType: 'application/json'
         };
     }
     if(config.accessKey === undefined) {
@@ -39,6 +41,14 @@ apigClientFactory.newClient = function (config) {
     }
     if(config.region === undefined) {
         config.region = 'us-east-1';
+    }
+    //If defaultContentType is not defined then default to application/json
+    if(config.defaultContentType === undefined) {
+        config.defaultContentType = 'application/json';
+    }
+    //If defaultAcceptType is not defined then default to application/json
+    if(config.defaultAcceptType === undefined) {
+        config.defaultAcceptType = 'application/json';
     }
 
     
@@ -57,7 +67,9 @@ apigClientFactory.newClient = function (config) {
         sessionToken: config.sessionToken,
         serviceName: 'execute-api',
         region: config.region,
-        endpoint: endpoint
+        endpoint: endpoint,
+        defaultContentType: config.defaultContentType,
+        defaultAcceptType: config.defaultAcceptType
     };
 
     var authType = 'NONE';
@@ -66,7 +78,9 @@ apigClientFactory.newClient = function (config) {
     }
 
     var simpleHttpClientConfig = {
-        endpoint: endpoint
+        endpoint: endpoint,
+        defaultContentType: config.defaultContentType,
+        defaultAcceptType: config.defaultAcceptType
     };
 
     var apiGatewayClient = apiGateway.core.apiGatewayClientFactory.newClient(simpleHttpClientConfig, sigV4ClientConfig);
@@ -106,6 +120,42 @@ apigClientFactory.newClient = function (config) {
         
         
         return apiGatewayClient.makeRequest(trainersOptionsRequest, authType, additionalParams, config.apiKey);
+    };
+    
+    
+    apigClient.trainersTrainerIdBookedslotsYearMonthDaySlotPost = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, ['slot', 'trainerId', 'clientId', 'day', 'year', 'month', 'location', 'body'], ['body']);
+        
+        var trainersTrainerIdBookedslotsYearMonthDaySlotPostRequest = {
+            verb: 'post'.toUpperCase(),
+            path: tag + uritemplate('/trainers/{trainerId}/bookedslots/{year}/{month}/{day}/{slot}').expand(apiGateway.core.utils.parseParametersToObject(params, ['slot', 'trainerId', 'day', 'year', 'month', ])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, ['clientId', 'location', ]),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(trainersTrainerIdBookedslotsYearMonthDaySlotPostRequest, authType, additionalParams, config.apiKey);
+    };
+    
+    
+    apigClient.trainersTrainerIdBookedslotsYearMonthDaySlotOptions = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, ['day', 'year', 'month', 'slot', 'trainerId'], ['body']);
+        
+        var trainersTrainerIdBookedslotsYearMonthDaySlotOptionsRequest = {
+            verb: 'options'.toUpperCase(),
+            path: tag + uritemplate('/trainers/{trainerId}/bookedslots/{year}/{month}/{day}/{slot}').expand(apiGateway.core.utils.parseParametersToObject(params, ['day', 'year', 'month', 'slot', 'trainerId'])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(trainersTrainerIdBookedslotsYearMonthDaySlotOptionsRequest, authType, additionalParams, config.apiKey);
     };
     
     
