@@ -46,7 +46,7 @@
 	<hr>
 	
 	<div ng-controller="calendarServiceController as calendarService">
-		<div ng-show="calendarService.trainers === null" class="progress">
+		<div ng-show="google.clientName !== null && calendarService.trainers === null" class="progress">
 	    	<div class="progress-bar progress-bar-striped active" style="width: 100%" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
 	    	</div>
 		</div>
