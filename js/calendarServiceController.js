@@ -1,8 +1,10 @@
 'use strict';
 
 angular.module('indexApp')
-  .controller('calendarServiceController', ['$scope', '$q', 'cognitoService', 'apigClientService', 'location', 'intervalStartTime', 'intervalEndTime',
-                                         function ($scope, $q, cognitoService, apigClientService, location, intervalStartTime, intervalEndTime) {
+  .controller('calendarServiceController', ['$scope', '$q', '$anchorScroll', '$location',
+                                            'cognitoService', 'apigClientService', 'location', 'intervalStartTime', 'intervalEndTime',
+                                         function ($scope, $q, $anchorScroll, $location,
+                                             cognitoService, apigClientService, location, intervalStartTime, intervalEndTime) {
     
     var vm = this;
     
@@ -128,16 +130,21 @@ angular.module('indexApp')
     
     vm.bookedSuccessfully = function() {
       console.log('slot booked');
-      $scope.$apply(vm.bookingSlot = false);
       $scope.$apply(vm.bookingSuccess = true);
-      $scope.$apply(vm.bookingAttemptFinished = true);
+      vm.bookingCompleted();
     }
     
     vm.bookingFailed = function() {
       console.log('booking failed');
-      $scope.$apply(vm.bookingSlot = false);
       $scope.$apply(vm.bookingSuccess = false);
+      vm.bookingCompleted();
+    }
+    
+    vm.bookingCompleted = function() {
+      $scope.$apply(vm.bookingSlot = false);
       $scope.$apply(vm.bookingAttemptFinished = true);
+      $location.hash('bookingAttemptResult');
+      $anchorScroll();
     }
     
     return vm;

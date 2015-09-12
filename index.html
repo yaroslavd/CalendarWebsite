@@ -74,14 +74,17 @@
 						</label><br/>
 					</div>
 				</div>
-				<input type="submit" value="Book Selected Slot"
-						ng-disabled="!calendarService.selectedSlot" ng-click="calendarService.bookSlot()"
+				<input id="bookButton" type="submit" value="Book Selected Slot"
+						ng-disabled="!calendarService.selectedSlot || calendarService.bookingSuccess || calendarService.bookingSlot"
+						ng-click="calendarService.bookSlot()"
 						class="btn btn-lg btn-primary expand-to-screen-width provide-margin-on-bottom" />
 				
 				<div ng-show="calendarService.bookingSlot" class="progress">
 			    	<div class="progress-bar progress-bar-striped active" style="width: 100%" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
 			    	</div>
 				</div>
+				
+				<div id="bookingAttemptResult"></div>
 				
 				<div ng-show="calendarService.bookingSuccess && calendarService.bookingAttemptFinished"
 					 class="alert alert-success" role="alert">
