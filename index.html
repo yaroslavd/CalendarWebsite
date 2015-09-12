@@ -69,7 +69,8 @@
 					<div class="panel-heading">{{group}}</div>
 					<div ng-repeat="freeSlot in freeSlots" class="panel-body slot-height">
 						<label>
-							<input type="radio" ng-model="calendarService.selectedSlot" value={{freeSlot}} name="freeSlotSelector">
+							<input type="radio" ng-model="calendarService.selectedSlot" ng-change="calendarService.slotSelected()"
+								value={{freeSlot}} name="freeSlotSelector">
 							{{calendarService.timeSlotRender(freeSlot)}}
 						</label><br/>
 					</div>

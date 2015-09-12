@@ -11,6 +11,7 @@ angular.module('indexApp')
     vm.trainers = null;
     vm.freeSlots = null;
     vm.selectedSlot = null;
+    
     vm.bookingSlot = false;
     vm.bookingSuccess = false;
     vm.bookingAttemptFinished = false;
@@ -93,6 +94,15 @@ angular.module('indexApp')
     
     vm.renderTime = function(moment) {
       return moment.format("h:mma");
+    }
+    
+    vm.slotSelected = function() {
+      vm.scrollToBookingButton();
+    }
+    
+    vm.scrollToBookingButton = function() {
+      $location.hash('bookButton');
+      $anchorScroll();
     }
     
     vm.bookSlot = function() {
