@@ -1,10 +1,8 @@
-.padded-top-and-bottom {
-	padding-top: 50px;
-	padding-bottom: 50px;
-}
-
-.restrict-width {
-	max-width: 900px;
+.body-margin {
+	margin-top: 25px;
+	margin-bottom: 25px;
+	margin-left: 25px;
+	margin-right: 25px;
 }
 
 .provide-margin-on-bottom {
@@ -13,4 +11,13 @@
 
 .expand-to-screen-width {
 	width: 100%;
+}
+
+.day {
+	min-width: 210px;
+	height: 300px;
+}
+
+.slot-height {
+	height: 15px;
 }

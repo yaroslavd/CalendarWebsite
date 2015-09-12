@@ -36,7 +36,7 @@
 	<script type="text/javascript" src="calendar-service-sdk/apigClient.js"></script>
 </head>
 
-<body ng-controller="googleController as google" class="container theme-showcase padded-top-and-bottom restrict-width">
+<body ng-controller="googleController as google" class="container-fluid body-margin">
 	<div class="jumbotron">
 		<h1>Welcome!</h1>
 		<p>Yaro's Calendar App allows you to schedule appointments with your trainer.</p>
@@ -62,12 +62,12 @@
 		    	</div>
 			</div>
 			
-			<form ng-show="calendarService.freeSlots !== null">
+			<form ng-show="calendarService.freeSlots !== null" class="row" class="container-fluid">
 				<hr>
-				Here are the times this trainer is free in the next month:
-				<div ng-repeat="(group, freeSlots) in calendarService.freeSlots" class="panel panel-default">
+				<p>Here are the times this trainer is free in the next month:</p>
+				<div ng-repeat="(group, freeSlots) in calendarService.freeSlots" class="panel panel-default col-sm-2 day">
 					<div class="panel-heading">{{group}}</div>
-					<div ng-repeat="freeSlot in freeSlots" class="panel-body">
+					<div ng-repeat="freeSlot in freeSlots" class="panel-body slot-height">
 						<label>
 							<input type="radio" ng-model="calendarService.selectedSlot" value={{freeSlot}} name="freeSlotSelector">
 							{{calendarService.timeSlotRender(freeSlot)}}

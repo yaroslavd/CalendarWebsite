@@ -23,5 +23,5 @@ angular.module('indexApp')
     return moment().add(1, "days").startOf("day");
   }])
   .factory('intervalEndTime', ['intervalStartTime', function(intervalStartTime) {
-    return intervalStartTime.clone().add(1, "months").startOf("day");
+    return intervalStartTime.clone().add(28, "day").startOf("day");
   }])
