@@ -2,9 +2,11 @@
 
 angular.module('indexApp')
   .controller('calendarServiceController', ['$scope', '$q', '$anchorScroll', '$location',
-                                            'cognitoService', 'apigClientService', 'location', 'intervalStartTime', 'intervalEndTime',
+                                            'cognitoService', 'cloudWatchClientService', 'apigClientService',
+                                            'cloudwatchNamespace', 'location', 'intervalStartTime', 'intervalEndTime',
                                          function ($scope, $q, $anchorScroll, $location,
-                                             cognitoService, apigClientService, location, intervalStartTime, intervalEndTime) {
+                                             cognitoService, cloudWatchClientService, apigClientService,
+                                             cloudwatchNamespace, location, intervalStartTime, intervalEndTime) {
     
     var vm = this;
     
@@ -28,8 +30,13 @@ angular.module('indexApp')
       var body = null;
       var additionalParams = {};
       
+      var startTimer = performance.now();
       apigClient.trainersGet(params, body, additionalParams)
         .then(vm.processTrainersGetResult);
+      var stopTimer = performance.now();
+      cloudWatchClientService.then(function(cw) {
+        cw.putMetricData(vm.constructTimingMetric('ListTrainersCall', stopTimer - startTimer));
+      });
     }
     
     vm.processTrainersGetResult = function(result) {
@@ -155,6 +162,17 @@ angular.module('indexApp')
       $scope.$apply(vm.bookingAttemptFinished = true);
       $location.hash('bookingAttemptResult');
       $anchorScroll();
+    }
+    
+    vm.constructTimingMetric = function(metricName, millis) {
+      return {
+        MetricData: [{
+          MetricName: metricName,
+          Value: millis,
+          Unit: 'Milliseconds'
+        }],
+        Namespace: cloudwatchNamespace
+      };
     }
     
     return vm;
