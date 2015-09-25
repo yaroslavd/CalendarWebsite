@@ -2,10 +2,10 @@
 
 angular.module('indexApp')
   .controller('calendarServiceController', ['$scope', '$q', '$anchorScroll', '$location',
-                                            'cognitoService', 'cloudWatchClientService', 'apigClientService',
+                                            'cognitoService', 'mobileAnalyticsClient', 'cloudWatchClientService', 'apigClientService',
                                             'cloudwatchNamespace', 'location', 'intervalStartTime', 'intervalEndTime',
                                          function ($scope, $q, $anchorScroll, $location,
-                                             cognitoService, cloudWatchClientService, apigClientService,
+                                             cognitoService, mobileAnalyticsClient, cloudWatchClientService, apigClientService,
                                              cloudwatchNamespace, location, intervalStartTime, intervalEndTime) {
     
     var vm = this;
@@ -19,7 +19,7 @@ angular.module('indexApp')
     vm.bookingAttemptFinished = false;
     
     $scope.selectedTrainer = null;
-    
+        
     apigClientService.then(listTrainers);
     
     function listTrainers(apigClient) {
@@ -42,9 +42,11 @@ angular.module('indexApp')
     
     vm.processTrainersGetResult = function(result) {
       $scope.$apply(vm.trainers = result.data.trainers);
+      mobileAnalyticsClient.recordEvent('Trainers Listed');
     }
     
     vm.trainerSelected = function() {
+      mobileAnalyticsClient.recordEvent('Trainer Selected');
       console.log("Trainer selected: " + $scope.selectedTrainer);
       vm.freeSlots = null;
       vm.bookingAttemptFinished = false;
@@ -80,6 +82,8 @@ angular.module('indexApp')
       vm.freeSlots = {};
       result.data.freeSlots.forEach(vm.processFreeSlot);
       $scope.$apply(console.log(vm.freeSlots));
+      
+      mobileAnalyticsClient.recordEvent('Free Slots Listed');
     }
     
     vm.processFreeSlot = function(freeSlot) {
@@ -170,6 +174,8 @@ angular.module('indexApp')
     }
     
     vm.bookingCompleted = function() {
+      mobileAnalyticsClient.recordEvent('Booking completed');
+      
       $scope.$apply(vm.bookingSlot = false);
       $scope.$apply(vm.bookingAttemptFinished = true);
       $location.hash('bookingAttemptResult');
