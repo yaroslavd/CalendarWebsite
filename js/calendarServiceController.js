@@ -30,13 +30,14 @@ angular.module('indexApp')
       var body = null;
       var additionalParams = {};
       
-      var startTimer = performance.now();
+      var timerStart = performance.now();
       apigClient.trainersGet(params, body, additionalParams)
-        .then(vm.processTrainersGetResult);
-      var stopTimer = performance.now();
-      cloudWatchClientService.then(function(cw) {
-        cw.putMetricData(vm.constructTimingMetric('ListTrainersCall', stopTimer - startTimer));
-      });
+        .then(vm.processTrainersGetResult)
+        .then(function() {
+          cloudWatchClientService.then(function(cw) {
+            cw.putMetricData(vm.constructTimingMetric('ListTrainersCall', timerStart), vm.processMetricSubmission);
+        })});
+      ;
     }
     
     vm.processTrainersGetResult = function(result) {
@@ -62,8 +63,14 @@ angular.module('indexApp')
       var body = null;
       var additionalParams = {};
       
+      var timerStart = performance.now();
       apigClient.trainersTrainerIdFreeslotsGet(params, body, additionalParams)
-        .then(vm.processTrainersTrainerIdFreeslotsGet);
+        .then(vm.processTrainersTrainerIdFreeslotsGet)
+        .then(function() {
+          cloudWatchClientService.then(function(cw) {
+            cw.putMetricData(vm.constructTimingMetric('ListFreeSlotsCall', timerStart), vm.processMetricSubmission);
+        })});
+
     }
     
     vm.processTrainersTrainerIdFreeslotsGet = function(result) {
@@ -141,8 +148,13 @@ angular.module('indexApp')
       var body = null;
       var additionalParams = {};
 
+      var timerStart = performance.now();
       apigClient.trainersTrainerIdBookedslotsYearMonthDaySlotPost(params, body, additionalParams)
-        .then(vm.bookedSuccessfully, vm.bookingFailed);
+        .then(vm.bookedSuccessfully, vm.bookingFailed)
+        .then(function() {
+          cloudWatchClientService.then(function(cw) {
+            cw.putMetricData(vm.constructTimingMetric('BookSlotCall', timerStart), vm.processMetricSubmission);
+        })});
     }
     
     vm.bookedSuccessfully = function() {
@@ -164,15 +176,28 @@ angular.module('indexApp')
       $anchorScroll();
     }
     
-    vm.constructTimingMetric = function(metricName, millis) {
+    vm.constructTimingMetric = function(metricName, timerStart) {
+      var duration = performance.now() - timerStart;
+      console.log('duration to record');
+      console.log(duration);
       return {
         MetricData: [{
           MetricName: metricName,
-          Value: millis,
+          Value: duration,
           Unit: 'Milliseconds'
         }],
         Namespace: cloudwatchNamespace
       };
+    }
+    
+    vm.processMetricSubmission = function(err, data) {
+      console.log('processMetricSubmission result');
+      if (err) {
+        console.log(err, err.stack);
+      }
+      else {
+        console.log(data);
+      }
     }
     
     return vm;
